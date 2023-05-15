@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gra z wyrażeniami regularnymi</title>
+  <style>
+    body {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gra z wyrażeniami regularnymi</h1>
+  <p id="pattern"></p>
+  <input type="text" id="input" placeholder="Wpisz wyrażenie regularne">
+  <button onclick="checkPattern()">Sprawdź</button>
+  <p id="result"></p>
+
+  <script>
+    // Tablica z przykładowymi wzorcami i odpowiadającymi im ciągami znaków
+    var patterns = [
+      { pattern: /[0-9]+/, input: "123" },
+      { pattern: /[a-zA-Z]+/, input: "abcDEF" },
+      { pattern: /\w{3,}/, input: "openAI" }
+    ];
+
+    var currentPatternIndex = 0;
+
+    function startNewGame() {
+      currentPatternIndex = 0;
+      displayPattern();
+      clearResult();
+    }
+
+    function displayPattern() {
+      var patternElement = document.getElementById("pattern");
+      patternElement.textContent = patterns[currentPatternIndex].input;
+    }
+
+    function clearResult() {
+      var resultElement = document.getElementById("result");
+      resultElement.textContent = "";
+    }
+
+    function checkPattern() {
+      var inputElement = document.getElementById("input");
+      var userInput = inputElement.value.trim();
+
+      if (userInput.match(patterns[currentPatternIndex].pattern)) {
+        var resultElement = document.getElementById("result");
+        resultElement.textContent = "Poprawne dopasowanie!";
+        inputElement.value = "";
+        currentPatternIndex++;
+
+        if (currentPatternIndex === patterns.length) {
+          setTimeout(function() {
+            alert("Gratulacje! Ukończyłeś grę.");
+            startNewGame();
+          }, 500);
+        } else {
+          setTimeout(displayPattern, 500);
+          clearResult();
+        }
+      } else {
+        var resultElement = document.getElementById("result");
+        resultElement.textContent = "Niepoprawne dopasowanie. Spróbuj ponownie.";
+      }
+    }
+
+    startNewGame();
+  </script>
+</body>
+</html>
